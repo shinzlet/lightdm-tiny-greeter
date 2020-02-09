@@ -128,15 +128,18 @@ int buffer_file (const char* filepath, char** p_buffer) {
 
     // calloc returns a null pointer if it fails
     if (! *p_buffer) {
+        fclose(fp);
         return 0;
     }
 
     // fread returns 1 if there's an error in reading a file.
     if (1 != fread (*p_buffer, file_length, 1, fp)) {
+        fclose(fp);
         free (*p_buffer);
         return 0;
     }
 
+    fclose(fp);
     return 1;
 }
 

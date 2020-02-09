@@ -107,6 +107,7 @@ authentication_complete_cb (LightDMGreeter *ldm)
 
 }
 
+/* Reads a file into a char array, given by its pointer */
 int buffer_file (const char* filepath, char** p_buffer) {
     FILE *fp;
     long file_length;
@@ -131,8 +132,7 @@ int buffer_file (const char* filepath, char** p_buffer) {
     }
 
     // fread returns 1 if there's an error in reading a file.
-    if (1 == fread (*p_buffer, file_length, 1, fp)) {
-        // TODO: should this free?
+    if (1 != fread (*p_buffer, file_length, 1, fp)) {
         free (*p_buffer);
         return 0;
     }
@@ -169,7 +169,7 @@ main (int argc, char **argv)
     char** style_buffer = calloc(1, sizeof(char*));
     if (buffer_file(style_filepath, style_buffer)) {
         gtk_css_provider_load_from_data (provider, *style_buffer, -1, NULL);
-	free (*style_buffer);
+        free (*style_buffer);
     } else {
         gtk_css_provider_load_from_data (provider, default_style, -1, NULL);
     }

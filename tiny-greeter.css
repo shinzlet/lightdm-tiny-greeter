@@ -3,7 +3,7 @@ window {
 }
 
 window * {
-    font: 16px \DejaVu Sans Mono\;
+    font: 16px "DejaVu Sans Mono";
 }
 
 label {

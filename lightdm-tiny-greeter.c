@@ -107,6 +107,38 @@ authentication_complete_cb (LightDMGreeter *ldm)
 
 }
 
+int buffer_file (const char* filepath, char** p_buffer) {
+    FILE *fp;
+    long file_length;
+
+    fp = fopen (filepath, "rb");
+
+    if (!fp) {
+        return 0;
+    }
+
+    // find length of file by measuring cursor index at end
+    fseek (fp, 0L, SEEK_END);
+    file_length = ftell (fp);
+    rewind (fp);
+
+    // allocate, add a null terminator (calloc w/ +1 creates one)
+    *p_buffer = calloc(1, file_length + 1);
+
+    // calloc returns a null pointer if it fails
+    if (! *p_buffer) {
+        return 0;
+    }
+
+    // fread returns 1 if there's an error in reading a file.
+    if (1 == fread (*p_buffer, file_length, 1, fp)) {
+        // TODO: should this free?
+        free (*p_buffer);
+        return 0;
+    }
+
+    return 1;
+}
 
 int
 main (int argc, char **argv)
@@ -133,13 +165,25 @@ main (int argc, char **argv)
             screen,
             GTK_STYLE_PROVIDER (provider),
             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    gtk_css_provider_load_from_data (provider, style, -1, NULL);
+
+    char** style_buffer = calloc(1, sizeof(char*));
+    if (buffer_file(style_filepath, style_buffer)) {
+        gtk_css_provider_load_from_data (provider, *style_buffer, -1, NULL);
+	free (*style_buffer);
+    } else {
+        gtk_css_provider_load_from_data (provider, default_style, -1, NULL);
+    }
 
 
     builder = gtk_builder_new ();
 
-    // load user interface
-    gtk_builder_add_from_string (builder, ui, -1, NULL);
+    char** ui_buffer = calloc(1, sizeof(char*));
+    if (buffer_file(xml_filepath, ui_buffer)) {
+        gtk_builder_add_from_string (builder, *ui_buffer, -1, NULL);
+        free (*ui_buffer);
+    } else {
+        gtk_builder_add_from_string (builder, default_ui, -1, NULL);
+    }
 
     // get components
     login_window  = GTK_WIDGET (gtk_builder_get_object (builder, "login_window"));

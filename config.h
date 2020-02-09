@@ -6,8 +6,13 @@ static const char *user_text = "Username";
 static const char *pass_text = "Password";
 /* Session name */
 static const char *session = "default";
+/* GTK XML filepath */
+static const char *xml_filepath = "/etc/lightdm/tiny-greeter.xml";
+/* GTK CSS filepath */
+static const char *style_filepath = "/etc/lightdm/tiny-greeter.css";
+
 /* GTK UI CSS */
-static const gchar *style =
+static const gchar *default_style =
 "window {"
     "background-color: #262626;"
 "}"
@@ -28,8 +33,9 @@ static const gchar *style =
     "margin-top: 25px;"
     "font-size: 14px;"
 "}";
-/* GTK UI XML*/
-static const gchar *ui =
+
+/* GTK UI XML */
+static const gchar *default_ui =
 "<?xml version='1.0' encoding='UTF-8'?>"
 "<interface>"
   "<requires lib='gtk+' version='3.20'/>"

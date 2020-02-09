@@ -1,3 +1,10 @@
+# Fork notes:
+Although I understand the reasoning behind baking config into a header file, I (as in shinzlet) have never been a fan!
+As such, I just made some little tweaks. Now, this greeter loads an xml and css file from /etc/lightdm/, which allows
+more on-the-fly customization. If they are absent, it falls back to the defaults provided in the config.h file.
+
+Huge thanks to [Tobias Heilig aka off-world](https://github.com/off-world) for writing this greeter! Simple and lovely.
+
 # LightDM Tiny Greeter
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2dbb11ae343f46e79a8f577a74670f10)](https://www.codacy.com/app/off-world/lightdm-tiny-greeter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=off-world/lightdm-tiny-greeter&amp;utm_campaign=Badge_Grade)

@@ -1,0 +1,24 @@
+window {
+    background-color: #262626;
+}
+
+window * {
+    font: 16px \DejaVu Sans Mono\;
+}
+
+label {
+    color: white;
+    margin-right: 15px;
+}
+
+entry {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px white inset;
+}
+
+#message_label {
+    color: red;
+    margin-top: 25px;
+    font-size: 14px;
+}

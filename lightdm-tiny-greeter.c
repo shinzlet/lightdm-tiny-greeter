@@ -32,6 +32,7 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include <lightdm.h>
 
 #include "config.h"
@@ -107,6 +108,9 @@ authentication_complete_cb (LightDMGreeter *ldm)
 
 }
 
+void update_theme (seconds) {
+}
+
 int
 main (int argc, char **argv)
 {
@@ -146,6 +150,11 @@ main (int argc, char **argv)
     prompt_entry  = GTK_ENTRY  (gtk_builder_get_object (builder, "prompt_entry"));
     message_label = GTK_LABEL  (gtk_builder_get_object (builder, "message_label"));
 
+    GdkRGBA bg_color;
+    gdk_rgba_parse(&bg_color, "rgb(100, 50, 0)");
+    // printf("%s", gdk_rgba_to_string(&bg_color));
+    gtk_widget_override_background_color(login_window, GTK_STATE_FLAG_NORMAL, &bg_color);
+
     // connect gtk signals
     g_signal_connect (prompt_entry, "activate", G_CALLBACK (login_cb), NULL);
 
@@ -180,6 +189,5 @@ main (int argc, char **argv)
 
 
     return EXIT_SUCCESS;
-
 }
 
